@@ -1,0 +1,65 @@
+/* .experienceBar span {
+  font-size: 1rem;
+}
+
+.experienceBar > div {
+  flex: 1;
+  height: 4px;
+  border-radius: 4px;
+  background-color: var(--gray-line);
+  margin: 0 1.5rem;
+  position: relative;
+
+  div {
+    height: 4px;
+    border-radius: 4px;
+    background: var(--green);
+
+  }
+
+  span.currentExperience {
+    position: absolute;
+    top: 12px;
+    transform: translateX(-50%);
+  }
+}
+ */
+
+.experienceBar {
+  display: flex;
+  align-items: center;
+
+  span {
+    font-size: 1rem;
+
+  }
+
+  > div {
+    flex: 1;
+    height: 4px;
+    border-radius: 4px;
+    background-color: var(--gray-line);
+    margin: 0 1.5rem;
+    position: relative;
+
+    div {
+      height: 4px;
+      border-radius: 4px;
+      background: var(--green);
+
+    }
+
+    span.currentExperience {
+      width: 4rem;
+      position: absolute;
+      top: 12px;
+      transform: translateX(-50%);
+    }
+  }
+}
+
+/* .currentExperience {
+  position: absolute;
+  top: 12px;
+  transform: translateX(-50%);
+} */

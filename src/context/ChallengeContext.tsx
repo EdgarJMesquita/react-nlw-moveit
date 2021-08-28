@@ -46,9 +46,9 @@ function ChallengeContextProvider({children, ...rest}:ReactChildrenProps){
   }, [])
 
   useEffect(() => {
-    Cookies.set('level', String(level));
-    Cookies.set('currentXP', String(currentXP));
-    Cookies.set('challengesCompleted', String(challengesCompleted));
+    Cookies.set('level', String(level),{sameSite:'strict'});
+    Cookies.set('currentXP', String(currentXP),{sameSite:'strict'});
+    Cookies.set('challengesCompleted', String(challengesCompleted),{sameSite:'strict'});
     
   }, [level, currentXP, challengesCompleted])
 
@@ -73,6 +73,7 @@ function ChallengeContextProvider({children, ...rest}:ReactChildrenProps){
 
   function resetChallenge(){
     setCurrentChallenge(null);
+    
   }
 
   function completeChallenge(){

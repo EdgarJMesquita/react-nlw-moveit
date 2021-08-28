@@ -1,10 +1,13 @@
-import { ChallengeContextProvider } from '../context/ChallengeContext';
+import { NavBar } from '../components/NavBar';
 import '../styles/globals.scss';
 
 function MyApp({ Component, pageProps }) {
   return(
-    <Component {...pageProps} />
-  ) 
+    <>
+      <NavBar />
+      <Component {...pageProps} />
+    </>
+    ) 
 }
 
 export default MyApp

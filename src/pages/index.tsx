@@ -8,7 +8,6 @@ import Head from 'next/head';
 import styles from '../styles/pages/Home.module.scss';
 import { CountdownContextProvider } from '../context/CountdownContext';
 import { GetServerSideProps } from 'next';
-import Cookies from 'js-cookie';
 import { ChallengeContextProvider } from '../context/ChallengeContext';
 
 type HomeProps = {

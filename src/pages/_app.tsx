@@ -3,9 +3,7 @@ import '../styles/globals.scss';
 
 function MyApp({ Component, pageProps }) {
   return(
-    <ChallengeContextProvider>
-      <Component {...pageProps} />
-    </ChallengeContextProvider>
+    <Component {...pageProps} />
   ) 
 }
 

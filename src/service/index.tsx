@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, getDocs, getDoc, doc } from 'firebase/firestore'
+import { getFirestore, getDoc,getDocs, doc, setDoc, collection } from 'firebase/firestore'
 import { getAuth, signInWithPopup, signOut, GithubAuthProvider } from 'firebase/auth';
 
 const FirebaseConfig = {
@@ -16,4 +16,4 @@ const app = initializeApp(FirebaseConfig);
 const auth = getAuth();
 const database = getFirestore();
 
-export { auth, signInWithPopup, GithubAuthProvider, signOut, database, getDocs, getDoc, doc };
+export { auth, signInWithPopup, GithubAuthProvider, signOut, database, collection, setDoc,getDocs, getDoc, doc };

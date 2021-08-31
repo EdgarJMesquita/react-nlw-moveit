@@ -1,6 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { database, getDoc, doc } from '../../../service';
-import { useAuth } from '../../hooks/useAuth';
+import { database, getDocs, collection } from '../../service';
 
 import styles from './styles.module.scss';  
 
@@ -18,12 +17,10 @@ type LeaderBoardProps = {
 }
 
 export default function Ranking({leaderboard}:LeaderBoardProps){
-  const { user, signInWithGithub } = useAuth();
 
   return(
     <div className={styles.container}>
       <h1>Leaderboard</h1>
-      <button onClick={signInWithGithub}>Click meeee</button>
       <table>
         <thead>
           <tr>
@@ -71,19 +68,23 @@ export default function Ranking({leaderboard}:LeaderBoardProps){
 
 export const getServerSideProps:GetServerSideProps = async()=>{
 
-  const docRef = doc(database,'leaderboard/lZVnG9F2Jy3Mj89rmhhI');
-  const docSnap = await getDoc(docRef);
+  let leaderboard = [];
+  const query = collection(database,'leaderboard');
+  const docSnap = await getDocs(query);
 
-  if (docSnap.exists()) {
-    const data = docSnap.data();
-    const leaderboard:LeaderBoard = data.all;
-    return{
+  docSnap.forEach(doc=>{
+    leaderboard = [...leaderboard, doc.data()];
+  })
+  
+  if(leaderboard.length>0){
+    return {
       props:{
         leaderboard
       }
     }
-  } 
-  return{
+  }
+
+  return {
     props:{
       leaderboard: null
     }

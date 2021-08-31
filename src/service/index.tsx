@@ -31,6 +31,3 @@ export {
   orderBy,
   limit 
 };
-
-//import { database, getDocs, collection, query, limit, orderBy } from '../../service';
-//import { auth, signInWithPopup, GithubAuthProvider } from '../service';

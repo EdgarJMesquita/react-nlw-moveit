@@ -5,9 +5,9 @@ import Cookies from 'js-cookie';
 
 type ReactChildrenProps = {
   children: ReactNode;
-  level: number;
-  currentXP: number;
-  challengesCompleted: number;
+  level?: number;
+  currentXP?: number;
+  challengesCompleted?: number;
 }
 
 type ChallengeProps = {
@@ -23,6 +23,9 @@ type ChallengeContextProps = {
   currentChallenge: ChallengeProps | null;
   experienceToNextLevel: number;
   isLevelUpModalOpen: boolean;
+  setLevel:(value:number)=>void;
+  setCurrentXP: (value:number)=>void;
+  setChallengesCompleted: (value:number)=>void;
   setIsLevelUpModalOpen: (key:boolean)=>void;
   levelUp: ()=>void;
   startNewChallenge: ()=>void;
@@ -106,6 +109,9 @@ function ChallengeContextProvider({children, ...rest}:ReactChildrenProps){
       currentChallenge,
       experienceToNextLevel,
       isLevelUpModalOpen,
+      setChallengesCompleted,
+      setLevel,
+      setCurrentXP,
       setIsLevelUpModalOpen,
       levelUp,
       startNewChallenge,

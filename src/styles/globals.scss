@@ -36,7 +36,7 @@ a {
   text-decoration: none;
   color: inherit;
 }
-
+/* 
 .container {
   height: 100vh;
   max-width: 992px;
@@ -45,5 +45,10 @@ a {
   
   display: flex;
   flex-direction: column;
-}
+} */
 
+@media screen and (max-width: 800px){
+  html {
+    font-size: 97.5%;
+  }
+}

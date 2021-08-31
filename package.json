@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "firebase": "^9.0.0-beta.8",
     "js-cookie": "^3.0.0",
     "next": "11.1.0",
     "react": "17.0.2",

@@ -27,7 +27,7 @@ export default function ChallengeBox(){
             
             <main>
               <img src={`icons/${currentChallenge.type}.svg`} alt="Body" />
-              <strong>Novo desafio</strong>
+              <strong>{currentChallenge.type === 'eye'? 'Mova os olhos':'Exercite-se'}</strong>
               <p>{currentChallenge.description}</p>
             </main>
 

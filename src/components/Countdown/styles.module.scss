@@ -105,5 +105,6 @@
   > div {
     background: var(--green);
     height: inherit;
+    transition: width 1s linear;
   }
 }

@@ -1,7 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { LevelUpModal } from '../components/LevelUpModal';
 import challenges from '../../challenges.json';
-import Cookies from 'js-cookie';
 import { database, doc, getDoc, setDoc } from '../service/index';
 import { useAuth } from '../hooks/useAuth';
 
@@ -35,31 +34,30 @@ type ChallengeContextProps = {
   completeChallenge: ()=>void;
 }
 
+type FirestoreUserProps = Record<string,number>;
+
 const ChallengeContext = createContext({} as ChallengeContextProps);
 
 function ChallengeContextProvider({children, ...rest}:ReactChildrenProps){
-  const [level, setLevel] = useState(rest.level?? 1);
-  const [currentXP, setCurrentXP] = useState(rest.currentXP?? 0);
-  const [challengesCompleted, setChallengesCompleted] = useState(rest.challengesCompleted?? 0);
+  const [level, setLevel] = useState(1);
+  const [currentXP, setCurrentXP] = useState(0);
+  const [challengesCompleted, setChallengesCompleted] = useState(0);
   const [currentChallenge, setCurrentChallenge] = useState<ChallengeProps>(null);
   const [ isLevelUpModalOpen, setIsLevelUpModalOpen ] = useState(false);
-  const experienceToNextLevel = Math.pow((level + 1) * 4, 2)
   const { user } = useAuth();
+  const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
+
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   
   useEffect(() => {
     Notification.requestPermission();
   }, [])
 
   useEffect(() => {
-    Cookies.set('level', String(level),{sameSite:'strict'});
-    Cookies.set('currentXP', String(currentXP),{sameSite:'strict'});
-    Cookies.set('challengesCompleted', String(challengesCompleted),{sameSite:'strict'});
-    
-  }, [level, currentXP, challengesCompleted])
-
-  useEffect(() => {
+    if(isFirstLoad){
+      return;
+    }
     (async()=>{
-
       if(user){
         try {
           const userData = {
@@ -70,40 +68,57 @@ function ChallengeContextProvider({children, ...rest}:ReactChildrenProps){
             experience: currentXP
           }
           const docRef = doc(database,'leaderboard',user.id);
-          const docSnap = await setDoc(docRef, userData);
-          
-        } catch (error) {
-          console.error(error);
-        }
-      }
+          await setDoc(docRef, userData);
+          console.log('posting');
+        } catch (error) {console.error(error)}
+      } 
     })();
   }, [user, level, currentXP, challengesCompleted])
 
-  type FirestoreUserProps = Record<string,number>
-
-  type FirestoreUserProp = {
-    level: number;
-    experience: number;
-    challangesCompleted: number;
-  }
   useEffect(() => {
     (async()=>{
       if(user){
-        const query = doc(database,'leaderboard',user.id)
+        const query = doc(database,'leaderboard',user.id);
         const result = await getDoc(query);
-        const userScore:FirestoreUserProps = result.data();
-        setLevel(userScore.level);
-        setCurrentXP(userScore.experience);
-        setChallengesCompleted(userScore.challengesCompleted);
+
+        if(result.exists()){
+          const userScore:FirestoreUserProps = result.data();
+          setLevel(userScore.level);
+          setCurrentXP(userScore.experience);
+          setChallengesCompleted(userScore.challengesCompleted);
+          console.log('fetching');
+        }
+        setIsFirstLoad(false);
       }
+      
     })();
-  }, [user])
+  }, [user]);
+  
+  useEffect(() => {
+    if(user) return;
+
+    const storage:FirestoreUserProps = JSON.parse(localStorage.getItem('userScore'));
+    setLevel(storage.level);
+    setCurrentXP(storage.currentXP);
+    setChallengesCompleted(storage.challengesCompleted);
+    
+  }, []);
+
+  useEffect(() => {
+    if(user) return;
+
+    localStorage.setItem('userScore',JSON.stringify({
+      level,
+      currentXP,
+      challengesCompleted
+    }));
+
+  }, [level, currentXP, challengesCompleted])
 
   function levelUp(){
     setLevel(prev=>(prev+1));
     setIsLevelUpModalOpen(true);
   }
-
 
   function startNewChallenge(){
     const randomIndex = Math.floor(Math.random() * challenges.length);
@@ -119,12 +134,10 @@ function ChallengeContextProvider({children, ...rest}:ReactChildrenProps){
     }
   }
 
-
   function resetChallenge(){
     setCurrentChallenge(null);
     
   }
-
 
   function completeChallenge(){
     if(!currentChallenge){

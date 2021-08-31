@@ -9,7 +9,6 @@ type UserProps = {
   id: string;
   name: string;
   avatar: string;
-  screenName?: string
 }
 
 type AuthContextProps = {
@@ -24,7 +23,6 @@ function AuthContextProvider({children}:ReactChildren){
 
   async function signInWithGithub(){
     try {
-      //const auth = getAuth();
       const provider = new GithubAuthProvider();
       const { user } = await signInWithPopup(auth,provider);
       

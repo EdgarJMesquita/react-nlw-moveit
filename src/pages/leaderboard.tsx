@@ -1,10 +1,10 @@
 import { GetServerSideProps } from 'next';
-import { database, getDocs, collection } from '../../service';
+import Head from 'next/head';
+import { database, getDocs, collection, query, limit, orderBy } from '../service';
 
-import styles from './styles.module.scss';  
+import styles from '../styles/pages/leaderboard.module.scss';  
 
 type LeaderBoard = {
-  id: string;
   name: string;
   avatar: string;
   level: number;
@@ -20,6 +20,9 @@ export default function Ranking({leaderboard}:LeaderBoardProps){
 
   return(
     <div className={styles.container}>
+      <Head>
+        <title>Leaderboard | MoveIt</title>
+      </Head>
       <h1>Leaderboard</h1>
       <table>
         <thead>
@@ -67,18 +70,19 @@ export default function Ranking({leaderboard}:LeaderBoardProps){
 
 
 export const getServerSideProps:GetServerSideProps = async()=>{
-
-  let leaderboard = [];
-  const query = collection(database,'leaderboard');
-  const docSnap = await getDocs(query);
-
-  docSnap.forEach(doc=>{
-    leaderboard = [...leaderboard, doc.data()];
-  })
   
-  if(leaderboard.length>0){
+  const docRef = collection(database,'leaderboard');
+  const docQuery = query(docRef, orderBy('level','desc'), orderBy('experience','desc'), limit(50));
+  //const docQuery = query(docRef, orderBy('level','desc'), limit(50));
+  const result = await getDocs(docQuery);
+  
+  if(!result.empty){
+    let leaderboard = [];
+    result.forEach(doc=>{
+      leaderboard = [...leaderboard, doc.data()]
+    })
     return {
-      props:{
+      props: {
         leaderboard
       }
     }

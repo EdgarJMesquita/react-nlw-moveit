@@ -20,7 +20,7 @@ const CountdownContext = createContext({} as CountdownContextProviderProps);
 function CountdownContextProvider({children}:Record<string,ReactNode>){
 
   const { startNewChallenge } = useChallenge();
-  const [ time, setTime ] = useState(0.5 * 60);
+  const [ time, setTime ] = useState(25 * 60);
   const [ isActive, setIsActive ] = useState(false);
   const [ hasFinish, setHasFinish ] = useState(false);
   const [ initialTime, setInitialTime ] = useState(time);

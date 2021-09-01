@@ -9,7 +9,6 @@ function MyApp({ Component, pageProps }) {
     <AuthContextProvider>
       <ChallengeContextProvider>
         <CountdownContextProvider>
-          <NavBar />
           <Component {...pageProps} />
         </CountdownContextProvider>
       </ChallengeContextProvider>

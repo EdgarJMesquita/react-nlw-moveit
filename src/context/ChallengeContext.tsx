@@ -17,6 +17,13 @@ type ChallengeProps = {
   amount: number;
 }
 
+type LocalStorageProps = {
+  name: string;
+  level: number;
+  currentXP: number;
+  challengesCompleted: number;
+}
+
 type ChallengeContextProps = {
   level: number;
   currentXP: number;
@@ -33,7 +40,6 @@ type ChallengeContextProps = {
   resetChallenge: ()=>void;
   completeChallenge: ()=>void;
 }
-
 type FirestoreUserProps = Record<string,number>;
 
 const ChallengeContext = createContext({} as ChallengeContextProps);
@@ -44,7 +50,7 @@ function ChallengeContextProvider({children, ...rest}:ReactChildrenProps){
   const [challengesCompleted, setChallengesCompleted] = useState(0);
   const [currentChallenge, setCurrentChallenge] = useState<ChallengeProps>(null);
   const [ isLevelUpModalOpen, setIsLevelUpModalOpen ] = useState(false);
-  const { user } = useAuth();
+  const { user, name, setName } = useAuth();
   const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -53,6 +59,8 @@ function ChallengeContextProvider({children, ...rest}:ReactChildrenProps){
     Notification.requestPermission();
   }, [])
 
+
+  // Usuário autenticado, informações são retiradas do banco de dados
   useEffect(() => {
     if(isFirstLoad){
       return;
@@ -94,20 +102,26 @@ function ChallengeContextProvider({children, ...rest}:ReactChildrenProps){
     })();
   }, [user]);
   
+
+
+  // Usuário não atenticado, toda informação é guardada no localStorage
   useEffect(() => {
     if(user) return;
 
-    const storage:FirestoreUserProps = JSON.parse(localStorage.getItem('userScore'));
+    
+    const storage:LocalStorageProps = JSON.parse(localStorage.getItem('userScore'));
+    if(!storage) return;
+    setName(storage.name);
     setLevel(storage.level);
     setCurrentXP(storage.currentXP);
     setChallengesCompleted(storage.challengesCompleted);
-    
   }, []);
 
   useEffect(() => {
     if(user) return;
 
     localStorage.setItem('userScore',JSON.stringify({
+      name,
       level,
       currentXP,
       challengesCompleted
@@ -115,6 +129,8 @@ function ChallengeContextProvider({children, ...rest}:ReactChildrenProps){
 
   }, [level, currentXP, challengesCompleted])
 
+
+  // Funções contendo a regra do jogo
   function levelUp(){
     setLevel(prev=>(prev+1));
     setIsLevelUpModalOpen(true);

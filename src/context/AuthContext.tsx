@@ -13,13 +13,19 @@ type UserProps = {
 
 type AuthContextProps = {
   user: UserProps;
+  name: string | null;
+  currentPage: string;
+  setCurrentPage: (value:string)=>void;
+  setName:(value:string)=>void
   signInWithGithub: ()=>void;
 }
 
 const AuthContext = createContext({}as AuthContextProps);
 
 function AuthContextProvider({children}:ReactChildren){
-  const [user, setUser] = useState<UserProps>()
+  const [ user, setUser ] = useState<UserProps>();
+  const [ name, setName ] = useState('');
+  const [ currentPage, setCurrentPage ] = useState(null); 
 
   async function signInWithGithub(){
     try {
@@ -60,6 +66,10 @@ function AuthContextProvider({children}:ReactChildren){
   return(
     <AuthContext.Provider value={{
       user,
+      name,
+      currentPage,
+      setCurrentPage,
+      setName,
       signInWithGithub
     }}>
       {children}

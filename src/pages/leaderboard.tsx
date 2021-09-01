@@ -1,8 +1,11 @@
-import { GetServerSideProps } from 'next';
 import Head from 'next/head';
+import { GetServerSideProps } from 'next';
+import { NavBar } from '../components/NavBar';
 import { database, getDocs, collection, query, limit, orderBy } from '../service';
 
 import styles from '../styles/pages/leaderboard.module.scss';  
+import { useEffect } from 'react';
+import { useAuth } from '../hooks/useAuth';
 
 type LeaderBoard = {
   name: string;
@@ -17,53 +20,63 @@ type LeaderBoardProps = {
 }
 
 export default function Ranking({leaderboard}:LeaderBoardProps){
+  const { setCurrentPage } = useAuth();
+
+  useEffect(() => {
+    setCurrentPage('leaderboard')
+  }, [])
 
   return(
-    <div className={styles.container}>
-      <Head>
-        <title>Leaderboard | MoveIt</title>
-      </Head>
-      <h1>Leaderboard</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Posição</th>
-            <th>Usuário</th>
-            <th>Desafios</th>
-            <th>Experiência</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {leaderboard?.map((user,index)=>(
-            <tr key={index}>
-              <td>{index+1}</td>
-              
-              <td>
-                <img src={user.avatar} alt={user.name} />
-                <div>
-                  <strong>{user.name}</strong>
-                  <div>
-                    <img src="icons/Up.svg" alt="Up" />
-                    <span>Level {user.level}</span>
-                  </div>
-                </div>
-              </td>
-
-              <td>
-                <span>{user.challengesCompleted}</span>
-                completados
-              </td>
-
-              <td>
-                <span>{user.experience}</span>
-                xp
-              </td>
+    <>
+      <NavBar />
+      <div className={styles.container}>
+        <Head>
+          <title>Leaderboard | MoveIt</title>
+        </Head>
+        <h1>Leaderboard</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Posição</th>
+              <th>Usuário</th>
+              <th>Desafios</th>
+              <th>Experiência</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+
+          <tbody>
+            {leaderboard?.map((user,index)=>(
+              <tr key={index}>
+                <td>{index+1}</td>
+                
+                <td>
+                  <img src={user.avatar} alt={user.name} />
+                  <div>
+                    <strong>{user.name}</strong>
+                    <div>
+                      <img src="icons/Up.svg" alt="Up" />
+                      <span>Level {user.level}</span>
+                    </div>
+                  </div>
+                </td>
+
+                <td>
+                  <span>{user.challengesCompleted}</span>
+                  completados
+                </td>
+
+                <td>
+                  <span>{user.experience}</span>
+                  xp
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <p>Apenas usuários autenticados aparecerão no leaderboard!</p>
+      </div>
+    </>
   );
 }
 

@@ -4,27 +4,39 @@ import CompletedChallenges from '../components/CompletedChallenges';
 import Countdown from '../components/Countdown';
 import ChallengeBox from '../components/ChallengeBox';
 import Head from 'next/head';
+import { NavBar } from '../components/NavBar';
 import styles from '../styles/pages/Home.module.scss';
+import { useEffect } from 'react';
+import { useAuth } from '../hooks/useAuth';
 
 
 export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Home | MoveIt</title>
-      </Head>
+  const { setCurrentPage } = useAuth();
 
-      <ExperienceBar />
-      <section>
-        <div>
-          <Profile />
-          <CompletedChallenges />
-          <Countdown />
-        </div>
-        <div>
-          <ChallengeBox />
-        </div>
-      </section>
-    </div>
+  useEffect(() => {
+    setCurrentPage('home');
+  }, []);
+  
+  return (
+    <>
+      <NavBar />
+      <div className={styles.container}>
+        <Head>
+          <title>Home | MoveIt</title>
+        </Head>
+
+        <ExperienceBar />
+        <section>
+          <div>
+            <Profile />
+            <CompletedChallenges />
+            <Countdown />
+          </div>
+          <div>
+            <ChallengeBox />
+          </div>
+        </section>
+      </div>
+    </>
   )
 }

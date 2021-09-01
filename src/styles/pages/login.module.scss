@@ -1,0 +1,131 @@
+.container {
+  background-color: #5965E0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  color: var(--white);
+
+  section {
+    display: flex;
+    height: 100%;
+    align-items: center;
+  }
+
+  aside {
+    img {
+      width: 40rem;
+      height: 40rem;
+    }
+  }
+
+  main {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 25rem;
+    margin: 0 auto;
+
+    > img {
+      margin-bottom: 5rem;
+    }
+
+    > p {
+      text-align: center;
+      margin: 2rem 0;
+      display: flex;
+      align-items: center;
+      color: #B2B9FF;
+
+      &::before {
+        content: "";
+        display: inline-block;
+        margin-right: 0.5rem;
+        width: 2rem;
+        height: 1px;
+        border-radius: 5px;
+        background: #B2B9FF;
+        flex: 1;
+      }
+      &::after {
+        content: "";
+        display: inline-block;
+        margin-left: 0.5rem;
+        width: 2rem;
+        height: 0.6px;
+        border-radius: 5px;
+        background: #B2B9FF;
+        flex: 1;
+      }
+    }
+  }
+
+  .loginSighGithub {
+    width: 90%;
+    
+    h1 {
+      margin-bottom: 1.5rem;
+    }
+    > div {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: #B2B9FF;
+      cursor: pointer;
+    }
+  }
+
+  
+
+  .inputContainer {
+    height: 5rem;
+    
+    display: flex;
+    justify-content: space-between;
+
+    background: url('../../../public/icons/input-bg.svg');
+    background-repeat: no-repeat;
+
+    border-bottom-left-radius: 5px;
+   
+    > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      input {
+        padding-left: 1.3rem; 
+        height: 100%;
+        width: 100%;
+        background: transparent; 
+        border: none;
+        outline: none;
+        color: var(--white);
+        font-size: 1.3rem;
+      }
+    }
+
+    button {
+      svg {
+        height: inherit;
+        cursor: pointer;
+        transition: fill 0.2s;
+      }
+      
+      border: none;
+      background: none;
+    }
+  }
+}
+
+@media screen and (max-width: 800px){
+  .container {
+
+    section {
+      .bigLogo {
+        display: none;
+      }
+      
+    }
+  }
+}

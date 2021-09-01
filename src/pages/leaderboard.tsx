@@ -1,7 +1,7 @@
 // React
 import { useEffect } from 'react';
 // Next
-import { GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 import Head from 'next/head';
 // Components
 import { NavBar } from '../components/NavBar';
@@ -87,7 +87,7 @@ export default function Ranking({leaderboard}:LeaderBoardProps){
 
 
 
-export const getStaticProps:GetStaticProps = async()=>{
+/* export const getStaticProps:GetStaticProps = async()=>{
   
   const docRef = collection(database,'leaderboard');
   const docQuery = query(docRef, orderBy('level','desc'), orderBy('experience','desc'), limit(50));
@@ -113,8 +113,8 @@ export const getStaticProps:GetStaticProps = async()=>{
     },
     revalidate: 10
   }
-}
-/* 
+} */
+
 export const getServerSideProps:GetServerSideProps = async()=>{
   
   const docRef = collection(database,'leaderboard');
@@ -139,4 +139,4 @@ export const getServerSideProps:GetServerSideProps = async()=>{
       leaderboard: null
     }
   }
-} */
+}

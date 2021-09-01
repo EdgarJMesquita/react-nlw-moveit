@@ -1,8 +1,13 @@
+// React
 import { createContext, ReactNode, useEffect, useState } from 'react';
+// Components
 import { LevelUpModal } from '../components/LevelUpModal';
-import challenges from '../../challenges.json';
-import { database, doc, getDoc, setDoc } from '../service/index';
+// Hooks
 import { useAuth } from '../hooks/useAuth';
+// Database
+import { database, doc, getDoc, setDoc } from '../service/index';
+// JSON
+import challenges from '../../challenges.json';
 
 type ReactChildrenProps = {
   children: ReactNode;
@@ -67,17 +72,18 @@ function ChallengeContextProvider({children, ...rest}:ReactChildrenProps){
     }
     (async()=>{
       if(user){
+        const userData = {
+          name: user.name,
+          avatar: user.avatar,
+          level,
+          challengesCompleted,
+          experience: currentXP
+        }
         try {
-          const userData = {
-            name: user.name,
-            avatar: user.avatar,
-            level,
-            challengesCompleted,
-            experience: currentXP
-          }
           const docRef = doc(database,'leaderboard',user.id);
           await setDoc(docRef, userData);
           console.log('posting');
+         
         } catch (error) {console.error(error)}
       } 
     })();
@@ -107,8 +113,6 @@ function ChallengeContextProvider({children, ...rest}:ReactChildrenProps){
   // Usuário não atenticado, toda informação é guardada no localStorage
   useEffect(() => {
     if(user) return;
-
-    
     const storage:LocalStorageProps = JSON.parse(localStorage.getItem('userScore'));
     if(!storage) return;
     setName(storage.name);

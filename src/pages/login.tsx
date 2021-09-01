@@ -1,7 +1,7 @@
-import { useAuth } from '../hooks/useAuth';
-import { useRouter } from 'next/dist/client/router';
 import { FormEvent, useEffect } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/dist/client/router';
+import { useAuth } from '../hooks/useAuth';
 import styles from '../styles/pages/login.module.scss';
 
 

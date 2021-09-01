@@ -12,7 +12,7 @@ export default function Profile(){
 
   return(
     <div className={styles.profileContainer}>
-      <img src={user? user.avatar: 'icons/avatar.svg'} alt={user? user.name: name? name:'Player 404'} />
+      <img src={user? user.avatar: name? `https://avatars.dicebear.com/api/human/${name}.svg`:'icons/avatar.svg'} alt={user? user.name: name? name:'Player 404'} />
       <div>
         <strong>{user? user.name: name? name:'Player 404'}</strong>
         <p>

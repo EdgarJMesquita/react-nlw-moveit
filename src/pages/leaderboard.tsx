@@ -1,11 +1,16 @@
-import Head from 'next/head';
-import { GetServerSideProps } from 'next';
-import { NavBar } from '../components/NavBar';
-import { database, getDocs, collection, query, limit, orderBy } from '../service';
-
-import styles from '../styles/pages/leaderboard.module.scss';  
+// React
 import { useEffect } from 'react';
+// Next
+import { GetStaticProps } from 'next';
+import Head from 'next/head';
+// Components
+import { NavBar } from '../components/NavBar';
+// Hooks
 import { useAuth } from '../hooks/useAuth';
+// Database
+import { database, getDocs, collection, query, limit, orderBy } from '../service';
+// Style
+import styles from '../styles/pages/leaderboard.module.scss';  
 
 type LeaderBoard = {
   name: string;
@@ -82,6 +87,34 @@ export default function Ranking({leaderboard}:LeaderBoardProps){
 
 
 
+export const getStaticProps:GetStaticProps = async()=>{
+  
+  const docRef = collection(database,'leaderboard');
+  const docQuery = query(docRef, orderBy('level','desc'), orderBy('experience','desc'), limit(50));
+  //const docQuery = query(docRef, orderBy('level','desc'), limit(50));
+  const result = await getDocs(docQuery);
+
+  if(!result.empty){
+    let leaderboard = [];
+    result.forEach(doc=>{
+      leaderboard = [...leaderboard, doc.data()]
+    })
+    return {
+      props: {
+        leaderboard
+      },
+      revalidate: 10
+    }
+  }
+
+  return {
+    props:{
+      leaderboard: null
+    },
+    revalidate: 10
+  }
+}
+/* 
 export const getServerSideProps:GetServerSideProps = async()=>{
   
   const docRef = collection(database,'leaderboard');
@@ -106,4 +139,4 @@ export const getServerSideProps:GetServerSideProps = async()=>{
       leaderboard: null
     }
   }
-}
+} */

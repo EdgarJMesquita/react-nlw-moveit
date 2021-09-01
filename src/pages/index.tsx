@@ -5,9 +5,10 @@ import Countdown from '../components/Countdown';
 import ChallengeBox from '../components/ChallengeBox';
 import Head from 'next/head';
 import { NavBar } from '../components/NavBar';
-import styles from '../styles/pages/Home.module.scss';
 import { useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
+import { GetStaticProps } from 'next';
+import styles from '../styles/pages/Home.module.scss';
 
 
 export default function Home() {

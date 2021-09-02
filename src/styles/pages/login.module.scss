@@ -1,8 +1,9 @@
 .container {
   background-color: #5965E0;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
+  box-sizing: border-box;
 
   color: var(--white);
 
@@ -118,6 +119,7 @@
   }
 }
 
+
 @media screen and (max-width: 800px){
   .container {
 
@@ -125,7 +127,13 @@
       .bigLogo {
         display: none;
       }
-      
+    }
+
+    main {
+      box-sizing: border-box;
+      width: 90%;
+      margin: 0 auto;   
+      overflow: hidden;   
     }
   }
 }

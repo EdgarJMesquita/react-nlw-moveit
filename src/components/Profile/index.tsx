@@ -12,7 +12,9 @@ export default function Profile(){
 
   return(
     <div className={styles.profileContainer}>
+      
       <img src={user? user.avatar: name? `https://avatars.dicebear.com/api/human/${name}.svg`:'icons/avatar.svg'} alt={user? user.name: name? name:'Player 404'} />
+        
       <div>
         <strong>{user? user.name: name? name:'Player 404'}</strong>
         <p>
@@ -24,9 +26,10 @@ export default function Profile(){
       {!user && 
         <div onClick={()=>router.push('/login')} className={styles.githubButton} title="Login ou Mudar nome do usuário"> 
           <img src="icons/github-icon.svg" alt="github" />
-          <p>Login</p>
+          <p>Sign In</p>
         </div>
       }
+
     </div>
   );
 }

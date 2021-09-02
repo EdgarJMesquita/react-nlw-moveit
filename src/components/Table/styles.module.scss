@@ -1,0 +1,117 @@
+.leaderboardTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+
+  td, th {
+    padding: 0.5rem  1rem;      
+  }
+
+  td {
+    height: 4.5rem;
+  }
+  
+  th {
+    color: var(--text);
+    text-align: left;
+  }
+  
+  tbody {
+
+    tr {
+      background-color: var(--white);
+      border-bottom: 7px solid #f2f3f5;
+    
+      td {
+
+        &:first-child{
+          text-align: center;
+          font-size: 1.5rem;
+          color: var(--text);
+          border-right: 7px solid #f2f3f5;
+          width: 4rem;
+        }
+        
+        &.profile {
+          width: 20rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          
+          > img {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+          }
+          
+          > div {
+            flex: 1;
+
+            strong {
+              display: block;
+              margin-bottom: 0.3rem;
+              color: var(--title);
+            }
+            
+            > div {
+              display: flex;
+              
+              span {
+                font-size: 0.975rem;
+                margin-left: 0.4rem;
+                color: var(--text);
+                font-weight: 400;
+              }
+            }
+          }
+        }
+
+        > span{
+          color: var(--blue);
+          margin-right: 0.4rem;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .leaderboardTable {
+    overflow: hidden;
+    border-radius: 5px;
+
+    thead {
+      display: none;
+    }
+    
+    tbody {
+      
+      tr {
+        width: 90vw;
+        display: flex;
+        flex-wrap: wrap;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        border: none;
+
+        td {
+          width: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &:first-child {
+            border-bottom: 7px solid #f2f3f5;
+            border-bottom-right-radius: 5px;
+          }
+
+          &.profile {
+            width: initial;
+          }
+
+        }
+      }
+    }
+  }
+}

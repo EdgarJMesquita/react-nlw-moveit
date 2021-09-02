@@ -57,14 +57,29 @@
     height: 4rem;
 
     flex-direction: row;
+
+    img {
+      width: 4rem;
+      height: 4rem;
+    }
+
     > div {
       flex-direction: row;
 
       > div {
+        width: 1.5rem;
+
         &.selected::before {
+          height: 2.3rem;
+          width: 0.3rem;
           left: initial;
-          top: - 1.35rem;
+          top: - 1rem;
+          //top: - 1.35rem;
           transform: rotate(-90deg);
+        }
+
+        &:last-child {
+          margin-right: 3rem;
         }
       }
     }
